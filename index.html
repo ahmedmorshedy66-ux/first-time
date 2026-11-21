@@ -100,16 +100,17 @@
       border: 0;
       border-radius: 8px;
       background: transparent;
-      color: #d79a28;
+      color: #aeb7bd;
       cursor: pointer;
       font: inherit;
       font-size: 34px;
       line-height: 1;
-      transition: background-color 140ms ease, transform 140ms ease;
+      transition: background-color 140ms ease, color 140ms ease, transform 140ms ease;
     }
 
     .star-number { color: #68726d; font-size: 13px; font-weight: 800; line-height: 1; }
-    .star-btn:hover { background: #fbf4e6; transform: translateY(-2px); }
+    .star-btn:hover { background: #fbf4e6; color: #d79a28; transform: translateY(-2px); }
+    .star-btn.selected { color: #d79a28; }
     .star-btn:active { transform: scale(1.12); }
     .star-btn:focus-visible, input:focus-visible, textarea:focus-visible, .submit-btn:focus-visible {
       outline: 3px solid #397a68;
@@ -181,11 +182,11 @@
       <p id="rating-copy">يهمنا جداً معرفة رأيك لتطوير خدمتنا باستمرار</p>
 
       <div id="rating-stars" class="stars" role="group" aria-label="اختر تقييمك من نجمة إلى خمس نجوم">
-        <button class="star-btn" type="button" aria-label="نجمة واحدة" data-rating="1"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">1</span></button>
-        <button class="star-btn" type="button" aria-label="نجمتان" data-rating="2"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">2</span></button>
-        <button class="star-btn" type="button" aria-label="ثلاث نجوم" data-rating="3"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">3</span></button>
-        <button class="star-btn" type="button" aria-label="أربع نجوم" data-rating="4"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">4</span></button>
-        <button class="star-btn" type="button" aria-label="خمس نجوم" data-rating="5"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">5</span></button>
+        <button class="star-btn" type="button" aria-label="نجمة واحدة" aria-pressed="false" data-rating="1"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">1</span></button>
+        <button class="star-btn" type="button" aria-label="نجمتان" aria-pressed="false" data-rating="2"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">2</span></button>
+        <button class="star-btn" type="button" aria-label="ثلاث نجوم" aria-pressed="false" data-rating="3"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">3</span></button>
+        <button class="star-btn" type="button" aria-label="أربع نجوم" aria-pressed="false" data-rating="4"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">4</span></button>
+        <button class="star-btn" type="button" aria-label="خمس نجوم" aria-pressed="false" data-rating="5"><span aria-hidden="true">★</span><span class="star-number" aria-hidden="true">5</span></button>
       </div>
     </section>
 
@@ -268,6 +269,12 @@
     document.querySelectorAll("[data-rating]").forEach((button) => {
       button.addEventListener("click", () => {
         const rating = Number(button.dataset.rating);
+
+        document.querySelectorAll("[data-rating]").forEach((star) => {
+          const isSelected = star === button;
+          star.classList.toggle("selected", isSelected);
+          star.setAttribute("aria-pressed", String(isSelected));
+        });
 
         if (rating >= 4) {
           window.location.href = "https://g.page/r/CeH0C_QwADvuEBM/review";
